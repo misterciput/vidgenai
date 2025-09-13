@@ -1,0 +1,34 @@
+# CogVideoX-5B-I2V Requirements for Google Colab
+# Compatible with Python 3.10+ (Colab default)
+
+# Core dependencies
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+
+# Diffusers library (main dependency)
+diffusers>=0.29.0
+transformers>=4.39.0
+
+# Video processing
+opencv-python>=4.8.0
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.9
+
+# Image processing
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# Acceleration and optimization
+accelerate>=0.25.0
+xformers>=0.0.22
+
+# Memory optimization
+bitsandbytes>=0.41.0
+
+# Utilities
+tqdm>=4.65.0
+matplotlib>=3.7.0
+
+# Optional: For better video quality
+moviepy>=1.0.3
