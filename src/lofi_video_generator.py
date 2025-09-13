@@ -64,7 +64,7 @@ class LoFiVideoGenerator:
                 self.model_id,
                 torch_dtype=torch_dtype,
                 use_safetensors=True,
-                device_map="auto" if self.device == "cuda" else None,
+                device_map="cuda" if self.device == "cuda" else None,
             )
             
             # Move to device
