@@ -1,5 +1,7 @@
 # LoFi Video Generator - Google Colab Setup Guide
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yourusername/lofi-video-generator/blob/main/notebooks/colab_quickstart.ipynb)
+
 ## Quick Start Instructions
 
 ### Step 1: Setup Google Colab Environment
