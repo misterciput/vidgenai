@@ -1,0 +1,40 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="vidgenai",
+    version="1.0.0",
+    author="Your Name",
+    author_email="your.email@example.com",
+    description="Generate seamlessly looping LoFi videos from images using CogVideoX-5B-I2V",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/misterciput/vidgenai",
+    packages=find_packages(),
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+    ],
+    python_requires=">=3.8",
+    install_requires=[
+        "torch>=2.1.0",
+        "torchvision>=0.16.0",
+        "diffusers>=0.29.0",
+        "transformers>=4.39.0",
+        "opencv-python>=4.8.0",
+        "imageio>=2.31.0",
+        "Pillow>=10.0.0",
+        "numpy>=1.24.0",
+        "accelerate>=0.25.0",
+        "tqdm>=4.65.0",
+    ],
+    extras_require={
+        "optimization": ["xformers>=0.0.22", "bitsandbytes>=0.41.0"],
+        "video": ["moviepy>=1.0.3", "imageio-ffmpeg>=0.4.9"],
+    },
+)
