@@ -64,7 +64,7 @@ class LoFiVideoGenerator:
                 self.model_id,
                 torch_dtype=torch_dtype,
                 use_safetensors=True,
-                device_map="cuda" if self.device == "cuda" else None,
+                device_map="auto" if self.device == "cuda" else None,
             )
             
             # Move to device
@@ -310,6 +310,41 @@ class LoFiVideoGenerator:
         return output_paths
 
 
+# Emergency functions for extremely limited memory
+def create_emergency_t4_generator():
+    """Create emergency T4 generator with minimal memory usage"""
+    return LoFiVideoGenerator(
+        enable_memory_optimization=True,
+        use_int8=True,
+        low_memory_mode=True,
+        device="cpu"  # Force CPU if GPU memory is exhausted
+    )
+
+def emergency_generate_video(image_path: str, prompt: str, output_path: str = "emergency_video.mp4"):
+    """Emergency video generation with absolute minimal settings"""
+    print("🆘 Emergency generation mode - CPU only, very slow but will work")
+    
+    generator = LoFiVideoGenerator(
+        enable_memory_optimization=False,  # Not needed for CPU
+        use_int8=False,
+        low_memory_mode=True,
+        device="cpu"
+    )
+    
+    generator.load_model()
+    
+    return generator.generate_lofi_video(
+        image_path=image_path,
+        prompt=prompt,
+        negative_prompt="blurry, low quality",
+        num_frames=8,         # 1 second video
+        fps=8,
+        guidance_scale=4.0,   # Minimal guidance
+        num_inference_steps=10,  # Minimal steps
+        output_path=output_path
+    )
+
+
 # Example usage and utility functions
 def create_t4_generator():
     """Create a T4-optimized generator for Google Colab"""
@@ -324,33 +359,28 @@ def main():
     """Example usage of the LoFi Video Generator"""
     
     # Initialize T4-optimized generator
-    print("🔧 Creating T4-optimized generator...")
+    print("🔧 Creating ultra-lightweight T4 generator...")
     generator = create_t4_generator()
     
-    # T4-optimized LoFi prompts for natural scenery
-    lofi_prompts = [
-        "Gentle wind moving through tall grass, soft morning light, peaceful nature scene, subtle movement",
-        "Calm lake with small ripples, reflecting clouds slowly drifting by, serene atmosphere",
-        "Tree branches swaying gently in the breeze, dappled sunlight, tranquil forest scene",
-        "Soft rain drops creating ripples in a puddle, cozy rainy day atmosphere",
-        "Steam rising from a hot cup of coffee, warm indoor lighting, comfortable scene"
-    ]
-    
-    # T4-optimized settings
-    t4_settings = {
-        "num_frames": 25,  # ~3 seconds at 8fps
-        "fps": 8,          # LoFi aesthetic
-        "guidance_scale": 6.0,
-        "num_inference_steps": 30,  # Reduced for T4
+    # Ultra-lightweight T4 settings
+    emergency_t4_settings = {
+        "num_frames": 16,      # ~2 seconds at 8fps
+        "fps": 8,              # LoFi aesthetic  
+        "guidance_scale": 5.0, # Reduced guidance
+        "num_inference_steps": 20,  # Minimal for quality
         "generator_seed": 42
     }
     
-    print("T4-optimized settings:")
-    for key, value in t4_settings.items():
+    print("🆘 Ultra-lightweight T4 settings:")
+    for key, value in emergency_t4_settings.items():
         print(f"  {key}: {value}")
     
+    print("\n💡 If you still get OOM errors:")
+    print("1. Restart Colab runtime")
+    print("2. Use emergency_generate_video() function")
+    print("3. Consider using CPU-only generation")
+    
     print("VidGenAI Generator initialized for T4!")
-    print("Use generator.generate_lofi_video() with T4-optimized settings.")
 
 
 if __name__ == "__main__":
