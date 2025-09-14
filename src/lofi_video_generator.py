@@ -311,16 +311,23 @@ class LoFiVideoGenerator:
 
 
 # Example usage and utility functions
+def create_t4_generator():
+    """Create a T4-optimized generator for Google Colab"""
+    return LoFiVideoGenerator(
+        enable_memory_optimization=True,
+        use_int8=True,
+        low_memory_mode=True  # Auto-uses 2B model
+    )
+
+
 def main():
     """Example usage of the LoFi Video Generator"""
     
-    # Initialize generator
-    generator = LoFiVideoGenerator(
-        enable_memory_optimization=True,
-        use_int8=True
-    )
+    # Initialize T4-optimized generator
+    print("🔧 Creating T4-optimized generator...")
+    generator = create_t4_generator()
     
-    # Example LoFi prompts for natural scenery
+    # T4-optimized LoFi prompts for natural scenery
     lofi_prompts = [
         "Gentle wind moving through tall grass, soft morning light, peaceful nature scene, subtle movement",
         "Calm lake with small ripples, reflecting clouds slowly drifting by, serene atmosphere",
@@ -329,18 +336,21 @@ def main():
         "Steam rising from a hot cup of coffee, warm indoor lighting, comfortable scene"
     ]
     
-    # Generate a sample video (you'll need to provide an actual image path)
-    # output_path = generator.generate_lofi_video(
-    #     image_path="path/to/your/lofi_image.jpg",
-    #     prompt=lofi_prompts[0],
-    #     num_frames=49,  # ~5 seconds at 10fps
-    #     fps=10,
-    #     generator_seed=42,
-    #     output_path="my_lofi_video.mp4"
-    # )
+    # T4-optimized settings
+    t4_settings = {
+        "num_frames": 25,  # ~3 seconds at 8fps
+        "fps": 8,          # LoFi aesthetic
+        "guidance_scale": 6.0,
+        "num_inference_steps": 30,  # Reduced for T4
+        "generator_seed": 42
+    }
     
-    print("LoFi Video Generator initialized successfully!")
-    print("Use generator.generate_lofi_video() to create your videos.")
+    print("T4-optimized settings:")
+    for key, value in t4_settings.items():
+        print(f"  {key}: {value}")
+    
+    print("VidGenAI Generator initialized for T4!")
+    print("Use generator.generate_lofi_video() with T4-optimized settings.")
 
 
 if __name__ == "__main__":
